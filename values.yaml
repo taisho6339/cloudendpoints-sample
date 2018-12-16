@@ -1,0 +1,26 @@
+appVersion: 6.4.0
+image:
+  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  tag: "6.4.0"
+cluster:
+  name: "cloud-endpoints-sample-es"
+  env:
+    MINIMUM_MASTER_NODES: "2"
+client:
+  name: "es-client"
+  heapSize: "512m"
+  replicas: "2"
+master:
+  name: "es-master"
+  heapSize: "512m"
+  replicas: "3"
+  persistance:
+    enabled: true
+    size: "512Mi"
+data:
+  name: "es-data"
+  heapSize: "512m"
+  replicas: "2"
+  persistance:
+    enabled: true
+    size: "1Gi"

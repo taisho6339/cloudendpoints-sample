@@ -1,0 +1,37 @@
+swagger: "2.0"
+info:
+  title: "Auth Proxy For Elasticsearch Cluster"
+  description: "Auth Proxy For Elasticsearch Cluster."
+  version: "1.0.0"
+host: "[ENDPOINT_SERVICE_NAME].endpoints.[PROJECT_ID].cloud.goog"
+x-google-endpoints:
+  - name: "[ENDPOINT_SERVICE_NAME].endpoints.[PROJECT_ID].cloud.goog"
+    target: "espServiceのExternalIP"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+schemes:
+  - "http"
+
+paths:
+  /_cluster/health:
+    get:
+      description: "Returns the es clusters' health."
+      operationId: "get_cluster_health"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: Get
+      security:
+        - google_jwt: []
+
+securityDefinitions:
+  google_jwt:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "[PROJECT_ID].appspot.com"
+    x-google-jwks_uri: "https://www.googleapis.com/service_accounts/v1/jwk/[PROJECT_ID]@appspot.gserviceaccount.com"
+    x-google-audiences: "[PROJECT_ID].appspot.com"

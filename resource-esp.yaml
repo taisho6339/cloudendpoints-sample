@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: esp-cloud-endpoints-sample-es
+spec:
+  ports:
+  - port: 9200
+    targetPort: 9201
+    protocol: TCP
+    name: http
+  selector:
+    app: esp-cloud-endpoints-sample-es
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: esp-cloud-endpoints-sample-es
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: esp-cloud-endpoints-sample-es
+    spec:
+      containers:
+      # [START esp]
+      - name: esp
+        image: gcr.io/endpoints-release/endpoints-runtime:1
+        args: [
+          "--http_port=9201",
+          "--backend=[CLUSTER_NAME]-elasticsearch-es-client.default.svc.cluster.local:9200",
+          "--service=[ENDPOINTS_SERVICE_NAME].endpoints.[PROJECT_ID].cloud.goog",
+          "--rollout_strategy=managed",
+        ]
+      # [END esp]
+        ports:
+          - containerPort: 9201

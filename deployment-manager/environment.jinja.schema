@@ -1,0 +1,21 @@
+info:
+  title: Cloud Endpoints Sample
+  author: taisho6339
+  description: Creates Environment for Sample
+  version: 1.0
+
+imports:
+- path: environment.jinja
+
+properties:
+  region:
+    type: string
+    default: asia-northeast1
+    description: |
+      Region info for resources
+
+  zone:
+    type: string
+    default: asia-northeast1-a
+    description: |
+      Zone info for resources

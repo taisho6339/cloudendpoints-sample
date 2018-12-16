@@ -1,0 +1,36 @@
+{% set PROJECT = env["project"] %}
+{% set DEPLOYMENT = env["deployment"] %}
+
+resources:
+  - name: {{ DEPLOYMENT }}-es
+    type: container.v1.cluster
+    properties:
+      zone: {{ properties["zone"] }}
+      cluster:
+        location: {{ properties["zone"] }}
+        loggingService: "logging.googleapis.com"
+        monitoringService: "monitoring.googleapis.com"
+        network: "projects/{{ PROJECT }}/global/networks/default"
+        subnetwork: "projects/{{ PROJECT }}/regions/{{ properties["region"] }}/subnetworks/default"
+        nodePools:
+          - name: "default-pool"
+            config: 
+              machineType: "n1-standard-1"
+              diskSizeGb: 100
+              imageType: "COS"
+              oauthScopes:
+                - "https://www.googleapis.com/auth/compute"
+                - "https://www.googleapis.com/auth/devstorage.read_only"
+                - "https://www.googleapis.com/auth/logging.write"
+                - "https://www.googleapis.com/auth/monitoring"
+                - "https://www.googleapis.com/auth/servicecontrol"
+                - "https://www.googleapis.com/auth/service.management.readonly"
+                - "https://www.googleapis.com/auth/trace.append"
+            initialNodeCount: 3
+            autoscaling:
+              enabled: true
+              minNodeCount: 3
+              maxNodeCount: 5
+            management:
+              autoUpgrade: true
+              autoRepair: true

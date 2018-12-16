@@ -1,0 +1,40 @@
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 5,
+      "number_of_replicas": 1
+    },
+    "analysis": {
+      "analyzer": {
+        "ngram_analyzer": {
+          "tokenizer": "ngram_tokenizer"
+        }
+      },
+      "tokenizer": {
+        "ngram_tokenizer": {
+          "type": "ngram",
+          "min_gram": 2,
+          "max_gram": 2
+        }
+      }
+    }
+  },
+  "mappings": {
+    "_doc": {
+      "dynamic": false,
+      "properties": {
+        "post_id": {
+          "type": "keyword"
+        },
+        "title": {
+          "type": "text",
+          "analyzer": "ngram_analyzer"
+        },
+        "content": {
+          "type": "text",
+          "analyzer": "ngram_analyzer"
+        }
+      }
+    }
+  }
+}
